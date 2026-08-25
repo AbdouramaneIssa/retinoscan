@@ -22,8 +22,7 @@ import numpy as np
 import pandas as pd
 from PIL import Image
 
-import tensorflow as tf
-from tensorflow.keras.applications.efficientnet import preprocess_input
+import onnxruntime as ort
 
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -177,13 +176,16 @@ except Exception as e:
     pipe_chd = None
 
 try:
-    modele_retino = tf.keras.models.load_model(
-        f"{MODELS_DIR}/module_retinopathie_efficientnet_final.keras"
+    modele_retino = ort.InferenceSession(
+        f"{MODELS_DIR}/module_retinopathie_efficientnet_final.onnx",
+        providers=["CPUExecutionProvider"],
     )
-    logger.info("✅ Modèle rétinopathie EfficientNet chargé")
+    ENTREE_RETINO = modele_retino.get_inputs()[0].name
+    logger.info("✅ Modèle rétinopathie EfficientNet (ONNX) chargé")
 except Exception as e:
     logger.error(f"❌ Modèle rétinopathie : {e}")
     modele_retino = None
+    ENTREE_RETINO = None
 
 # Gemini
 if GEMINI_API_KEY:
@@ -270,6 +272,22 @@ class DonneesRapport(BaseModel):
 # Fonctions utilitaires
 # ─────────────────────────────────────────────
 
+def preprocess_input(x):
+    """
+    Reprise de tensorflow.keras.applications.efficientnet.preprocess_input.
+
+    Sa docstring TensorFlow est explicite : « The preprocessing logic has been
+    included in the efficientnet model implementation. This method does nothing
+    and only kept as a placeholder. » — son corps est litteralement `return x`.
+    La normalisation (Rescaling + Normalization) vit dans le graphe du modele,
+    et a ete conservee telle quelle lors de la conversion vers ONNX.
+
+    Identite verifiee sur entrees aleatoires : ecart maximum 0.0.
+    Conservee ici pour que le pretraitement reste inchange, a la lettre.
+    """
+    return x
+
+
 def predire_retinopathie(image_bytes: bytes) -> dict:
     """Prédit le stade de rétinopathie avec filet de sécurité à 2 niveaux."""
     img = Image.open(io.BytesIO(image_bytes)).convert("RGB")
@@ -278,7 +296,7 @@ def predire_retinopathie(image_bytes: bytes) -> dict:
     arr = preprocess_input(arr)
     arr = np.expand_dims(arr, axis=0)
 
-    proba = modele_retino.predict(arr, verbose=0)[0]
+    proba = modele_retino.run(None, {ENTREE_RETINO: arr})[0][0]
     classe = int(np.argmax(proba))
     confiance = float(proba[classe])
 
