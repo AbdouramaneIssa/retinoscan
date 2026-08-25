@@ -175,9 +175,20 @@ except Exception as e:
     logger.error(f"❌ Modèle CHD : {e}")
     pipe_chd = None
 
+_options_retino = ort.SessionOptions()
+# Un seul thread de calcul : sur un hebergement 512 Mo / faible vCPU, les
+# arenes memoire allouees par thread coutent plus cher que le gain de latence.
+# Mesure sur cette machine (32 CPU logiques) : -5,1 Mo sur la RSS de
+# l'application apres deux predictions, pour +1,8 ms de latence mediane.
+# Gain modeste ici ; l'interet reel est l'hebergement a faible vCPU, ou
+# ouvrir 32 threads de calcul est contre-productif.
+_options_retino.intra_op_num_threads = 1
+_options_retino.inter_op_num_threads = 1
+
 try:
     modele_retino = ort.InferenceSession(
         f"{MODELS_DIR}/module_retinopathie_efficientnet_final.onnx",
+        sess_options=_options_retino,
         providers=["CPUExecutionProvider"],
     )
     ENTREE_RETINO = modele_retino.get_inputs()[0].name

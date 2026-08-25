@@ -1,0 +1,103 @@
+{
+  "demarrage_s": 17.4,
+  "endpoints": {
+    "/health": {
+      "corps": {
+        "chatbot": true,
+        "modeles": {
+          "chd": true,
+          "diabete": true,
+          "hypertension": true,
+          "retinopathie": true
+        },
+        "status": "ok"
+      },
+      "statut": 200
+    },
+    "/predict/chd": {
+      "corps": {
+        "label": "Risque cardiovasculaire élevé",
+        "prediction": 1,
+        "probabilite": 93.0,
+        "risque": "Élevé"
+      },
+      "statut": 200
+    },
+    "/predict/complet[hero.jpg]": {
+      "corps": {
+        "resultats": {
+          "retinopathie": {
+            "confiance": 100.0,
+            "message": "Image non reconnue comme un fond d'œil. Veuillez fournir une photo de fond d'œil valide.",
+            "valide": false
+          }
+        }
+      },
+      "statut": 200
+    },
+    "/predict/diabete": {
+      "corps": {
+        "label": "Diabétique",
+        "prediction": 1,
+        "probabilite": 100.0,
+        "risque": "Élevé"
+      },
+      "statut": 200
+    },
+    "/predict/hypertension": {
+      "corps": {
+        "label": "Non hypertendu",
+        "prediction": 0,
+        "probabilite": 39.1,
+        "risque": "Faible"
+      },
+      "statut": 200
+    },
+    "/predict/retinopathie[hero.jpg]": {
+      "corps": {
+        "confiance": 100.0,
+        "message": "Image non reconnue comme un fond d'œil. Veuillez fournir une photo de fond d'œil valide.",
+        "valide": false
+      },
+      "statut": 200
+    },
+    "/predict/retinopathie[hero1.jpg]": {
+      "corps": {
+        "confiance": 100.0,
+        "message": "Image non reconnue comme un fond d'œil. Veuillez fournir une photo de fond d'œil valide.",
+        "valide": false
+      },
+      "statut": 200
+    },
+    "/predict/retinopathie[pwa-512x512.png]": {
+      "corps": {
+        "confiance": 91.3,
+        "infos": {
+          "couleur": "#27ae60",
+          "description": "Le fond d'œil ne présente aucun signe de rétinopathie diabétique.",
+          "recommandations": [
+            "Contrôle glycémique strict (HbA1c < 7%)",
+            "Examen ophtalmologique annuel de suivi",
+            "Maintien d'une tension artérielle optimale (< 130/80 mmHg)",
+            "Arrêt du tabac si fumeur"
+          ],
+          "titre": "Aucune rétinopathie détectée",
+          "urgence": "Faible"
+        },
+        "label": "Stade 0 — Aucune rétinopathie",
+        "stade": 0,
+        "toutes_probabilites": {
+          "Image non reconnue": 0.0,
+          "Stade 0 — Aucune rétinopathie": 91.3,
+          "Stade 1 — Rétinopathie légère (Mild)": 6.3,
+          "Stade 2 — Rétinopathie modérée (Moderate)": 2.4,
+          "Stade 3 — Rétinopathie sévère (Severe)": 0.0,
+          "Stade 4 — Rétinopathie proliférante (Proliferative DR)": 0.0
+        },
+        "valide": true
+      },
+      "statut": 200
+    }
+  },
+  "label": "APRES - onnxruntime mono-thread"
+}
