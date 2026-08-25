@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 640" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#072b48"/>
+      <stop offset="0.5" stop-color="#0b4f73"/>
+      <stop offset="1" stop-color="#0e7490"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#22d3ee" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="iris" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#67e8f9" stop-opacity="0.9"/>
+      <stop offset="0.45" stop-color="#0891b2" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#0e7490" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Fond dégradé -->
+  <rect width="1200" height="640" fill="url(#bg)"/>
+
+  <!-- Halos lumineux -->
+  <circle cx="950" cy="250" r="360" fill="url(#glow)"/>
+  <circle cx="180" cy="560" r="260" fill="url(#glow)" opacity="0.5"/>
+
+  <!-- Œil / rétine stylisé (anneaux concentriques) -->
+  <g transform="translate(930 300)" fill="none" stroke="#a5f3fc" stroke-opacity="0.35">
+    <circle r="220" stroke-width="1.5"/>
+    <circle r="170" stroke-width="1.5" stroke-opacity="0.45"/>
+    <circle r="120" stroke-width="2" stroke-opacity="0.6"/>
+    <circle r="70" stroke-width="2.5" stroke-opacity="0.75"/>
+  </g>
+  <circle cx="930" cy="300" r="120" fill="url(#iris)"/>
+  <circle cx="930" cy="300" r="34" fill="#0f172a" opacity="0.55"/>
+  <circle cx="918" cy="286" r="11" fill="#e0f2fe" opacity="0.85"/>
+
+  <!-- Vaisseaux rétiniens (courbes fines partant du centre) -->
+  <g stroke="#67e8f9" stroke-opacity="0.4" fill="none" stroke-linecap="round">
+    <path d="M930 300 C 1010 250, 1080 270, 1140 220" stroke-width="2"/>
+    <path d="M930 300 C 1000 360, 1060 380, 1120 360" stroke-width="2"/>
+    <path d="M930 300 C 860 250, 800 250, 740 210" stroke-width="2"/>
+    <path d="M930 300 C 870 360, 820 400, 770 430" stroke-width="2"/>
+    <path d="M930 300 C 940 220, 930 170, 950 120" stroke-width="1.5"/>
+  </g>
+
+  <!-- Ligne ECG (module cardiovasculaire) -->
+  <path d="M0 540 H 360 l 24 0 l 14 -46 l 18 92 l 16 -120 l 16 74 l 18 0 H 620 l 14 0 l 14 -34 l 16 66 l 16 -92 l 14 60 l 16 0 H 1200"
+    fill="none" stroke="#67e8f9" stroke-opacity="0.5" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+
+  <!-- Petits points (cellules / micro-anévrismes) -->
+  <g fill="#a5f3fc" fill-opacity="0.5">
+    <circle cx="300" cy="160" r="4"/>
+    <circle cx="420" cy="120" r="3"/>
+    <circle cx="520" cy="200" r="2.5"/>
+    <circle cx="240" cy="300" r="3"/>
+    <circle cx="660" cy="120" r="2.5"/>
+  </g>
+</svg>
