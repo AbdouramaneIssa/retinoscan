@@ -1,11 +1,11 @@
-# Variables d'environnement — NE JAMAIS COMMITER
+# Variables d'environnement — NE JAMAIS COMMITER (cles API et mot de passe Gmail reels)
 .env
 backend/.env
+frontend/.env
+*.env.local
 
-# Modeles lourds — a gerer via Git LFS ou Hugging Face Hub
-backend/models/*.keras
-backend/models/*.pkl
-backend/models/*.onnx
+# Les modeles SONT versionnes (demande explicite) : 50 Mo au total, sous la
+# limite GitHub de 100 Mo par fichier. Pas de Git LFS necessaire.
 
 # Python
 __pycache__/
